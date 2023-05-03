@@ -19,38 +19,38 @@ midnight = datetime.combine(datetime.today(), time.min)
 yesterday_midnight = midnight - timedelta(days=1)
 #print(f"from {yesterday_midnight.timestamp()}......to {midnight.timestamp()}")
 
-class User:
-    def __init__(self, id, username, password):
-        self.id = id
-        self.username = username
-        self.password = password
-
-    def __repr__(self):
-        return f'<User: {self.username}>'
-
-users = [] #created a list for the username and password
-users.append(User(id=1, username='user1', password='pass1'))  #instead of this we can also take username password from db
-users.append(User(id=2, username='user2', password='pass2'))
-users.append(User(id=3, username='user3', password='pass3'))
-
+# class User:
+#     def __init__(self, id, username, password):
+#         self.id = id
+#         self.username = username
+#         self.password = password
+#
+#     def __repr__(self):
+#         return f'<User: {self.username}>'
+#
+# users = [] #created a list for the username and password
+# users.append(User(id=1, username='user1', password='pass1'))  #instead of this we can also take username password from db
+# users.append(User(id=2, username='user2', password='pass2'))
+# users.append(User(id=3, username='user3', password='pass3'))
+#
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
-
-@app.before_request
-def before_request():
-    g.user = None
-
-    if 'user_id' in session:
-        user = [x for x in users if x.id == session['user_id']][0]
-        g.user = user
-print("ok till 70")
-@app.route('data', methods =["GET", "POST"])
+#app.secret_key = os.urandom(24)
+#
+# @app.before_request
+# def before_request():
+#     g.user = None
+#
+#     if 'user_id' in session:
+#         user = [x for x in users if x.id == session['user_id']][0]
+#         g.user = user
+# print("ok till 70")
+@app.route('/data', methods =["GET", "POST"])
 def data():
 
-    print("session valid line no 74")
-    global Meter_id
-    ok2="line72"
-    print(ok2)
+    # print("session valid line no 74")
+    # global Meter_id
+    # ok2="line72"
+    # print(ok2)
     try:
         db2 = mysql.connector.connect(user="ajarcake4", password="xJkuyOKBizuim9M42mukRA", host="server050641860.mysql.database.azure.com", database="bokaro_ems", port="3306")
         db2_cursor = db2.cursor()
@@ -204,13 +204,13 @@ def data():
     return response1
 
 
-@app.route("currentdata", methods=["GET", "POST"])
+@app.route("/currentdata", methods=["GET", "POST"])
 def currentdata():
-    if not g.user:
-        print("session not valid")
-        return redirect(url_for('login'))
-
-    print("session valid")
+    # if not g.user:
+    #     print("session not valid")
+    #     return redirect(url_for('login'))
+    #
+    # print("session valid")
     global Meter_id
     Meter_id = request.form.get("Meter_id")
     print(Meter_id)
@@ -252,13 +252,13 @@ def currentdata():
     return render_template('ems_test_v22.html', data1=(r_val), data2=(data8))
 
 
-@app.route("getPlotCSV")
+@app.route("/getPlotCSV")
 def getPlotCSV():
-    if not g.user:
-        print("session not valid")
-        return redirect(url_for('login'))
-
-    print("session valid")
+    # if not g.user:
+    #     print("session not valid")
+    #     return redirect(url_for('login'))
+    #
+    # print("session valid")
     try:
         db2 = mysql.connector.connect(user="ajarcake4", password="xJkuyOKBizuim9M42mukRA", host="server050641860.mysql.database.azure.com", database="bokaro_ems", port="3306")
         db2_cursor = db2.cursor()
@@ -285,13 +285,13 @@ def getPlotCSV():
                 "attachment; filename = BSL_EMS_meterdata.csv"})
 
 
-@app.route("getexcel")#, methods=["GET","POST"])
+@app.route("/getexcel")#, methods=["GET","POST"])
 def getexcel():
-    if not g.user:
-        print("session not valid")
-        return redirect(url_for('login'))
-
-    print("session valid")
+    # if not g.user:
+    #     print("session not valid")
+    #     return redirect(url_for('login'))
+    #
+    # print("session valid")
     try:
         db2 = mysql.connector.connect(user="ajarcake4", password="xJkuyOKBizuim9M42mukRA", host="server050641860.mysql.database.azure.com", database="bokaro_ems", port="3306")
         db2_cursor = db2.cursor()
@@ -312,13 +312,13 @@ def getexcel():
     return render_template("datasheet.html", data=(t_val))
 
 
-@app.route("historicaldata", methods=["GET", "POST"])
+@app.route("/historicaldata", methods=["GET", "POST"])
 def historical():
-    if not g.user:
-        print("session not valid")
-        return redirect(url_for('login'))
-
-    print("session valid")
+    # if not g.user:
+    #     print("session not valid")
+    #     return redirect(url_for('login'))
+    #
+    # print("session valid")
     global meterID_H
     meterID_H = [int(request.form.get("Meter_id"))]
     print(meterID_H)
@@ -401,13 +401,13 @@ def historical():
     return render_template("historic.html", data=(h_val), data0=(data0), data1=(data1), data2=(data2), data3=(data3), data4=(data4), data5=(data5), data6=(data6), data7=(data7), data8=(data8), data9=(data9))
 
 
-@app.route("historicdwnld")
+@app.route("/historicdwnld")
 def historicdwnld():
-    if not g.user:
-        print("session not valid")
-        return redirect(url_for('login'))
-
-    print("session valid")
+    # if not g.user:
+    #     print("session not valid")
+    #     return redirect(url_for('login'))
+    #
+    # print("session valid")
     try:
         db2 = mysql.connector.connect(user="ajarcake4", password="xJkuyOKBizuim9M42mukRA", host="server050641860.mysql.database.azure.com", database="bokaro_ems", port="3306")
         db2_cursor = db2.cursor()
@@ -435,17 +435,17 @@ def historicdwnld():
 
 
 
-@app.route("historic")
+@app.route("/historic")
 def historic():
     return render_template('historic.html')
 
-@app.route("current_data")
+@app.route("/current_data")
 def current_data():
-    if not g.user:
-        print("session not valid")
-        return redirect(url_for('login'))
-
-    print("session valid")
+    # if not g.user:
+    #     print("session not valid")
+    #     return redirect(url_for('login'))
+    #
+    # print("session valid")
     try:
         db2 = mysql.connector.connect(user="ajarcake4", password="xJkuyOKBizuim9M42mukRA", host="server050641860.mysql.database.azure.com", database="bokaro_ems", port="3306")
         db2_cursor = db2.cursor()
@@ -482,43 +482,43 @@ def current_data():
 
     return render_template('ems_test_v22.html', data1=(t2_val), data2=(data8))
 
-@app.route("mapping")
-def mapping():
-    if not g.user:
-        print("session not valid")
-        return redirect(url_for('login'))
-    print("session valid")
-    return render_template('mapping.html')
+# @app.route("/mapping")
+# def mapping():
+#     if not g.user:
+#         print("session not valid")
+#         return redirect(url_for('login'))
+#     print("session valid")
+#     return render_template('mapping.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-
-    if request.method == 'POST':
-        print("right req")
-        session.pop('user_id',None)
-
-        username = request.form['username']
-        password = request.form['password']
-
-        print(users)
-
-        if len([x for x in users if x.username == username]) == 0:
-            print("wrong username")
-        else:
-            user = [x for x in users if x.username == username][0]
-            print(user)
-            if user and user.password == password:
-                session['user_id'] = user.id
-                return redirect(url_for('mapping'))
-
-            print("wrong password")
-            return redirect(url_for('login'))
-
-    print("wrong req")
-    print(url_for('mapping'))
+#
+#     if request.method == 'POST':
+#         print("right req")
+#         session.pop('user_id',None)
+#
+#         username = request.form['username']
+#         password = request.form['password']
+#
+#         print(users)
+#
+#         if len([x for x in users if x.username == username]) == 0:
+#             print("wrong username")
+#         else:
+#             user = [x for x in users if x.username == username][0]
+#             print(user)
+#             if user and user.password == password:
+#                 session['user_id'] = user.id
+#                 return redirect(url_for('mapping'))
+#
+#             print("wrong password")
+#             return redirect(url_for('login'))
+#
+#     print("wrong req")
+#     print(url_for('mapping'))
     return render_template('login.html')
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)
