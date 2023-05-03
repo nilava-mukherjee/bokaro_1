@@ -44,7 +44,7 @@ def before_request():
         user = [x for x in users if x.id == session['user_id']][0]
         g.user = user
 print("ok till 70")
-@app.route('/data', methods =["GET", "POST"])
+@app.route('data', methods =["GET", "POST"])
 def data():
 
     print("session valid line no 74")
@@ -204,7 +204,7 @@ def data():
     return response1
 
 
-@app.route("/currentdata", methods=["GET", "POST"])
+@app.route("currentdata", methods=["GET", "POST"])
 def currentdata():
     if not g.user:
         print("session not valid")
@@ -252,7 +252,7 @@ def currentdata():
     return render_template('ems_test_v22.html', data1=(r_val), data2=(data8))
 
 
-@app.route("/getPlotCSV")
+@app.route("getPlotCSV")
 def getPlotCSV():
     if not g.user:
         print("session not valid")
@@ -285,7 +285,7 @@ def getPlotCSV():
                 "attachment; filename = BSL_EMS_meterdata.csv"})
 
 
-@app.route("/getexcel")#, methods=["GET","POST"])
+@app.route("getexcel")#, methods=["GET","POST"])
 def getexcel():
     if not g.user:
         print("session not valid")
@@ -312,7 +312,7 @@ def getexcel():
     return render_template("datasheet.html", data=(t_val))
 
 
-@app.route("/historicaldata", methods=["GET", "POST"])
+@app.route("historicaldata", methods=["GET", "POST"])
 def historical():
     if not g.user:
         print("session not valid")
@@ -401,7 +401,7 @@ def historical():
     return render_template("historic.html", data=(h_val), data0=(data0), data1=(data1), data2=(data2), data3=(data3), data4=(data4), data5=(data5), data6=(data6), data7=(data7), data8=(data8), data9=(data9))
 
 
-@app.route("/historicdwnld")
+@app.route("historicdwnld")
 def historicdwnld():
     if not g.user:
         print("session not valid")
@@ -435,11 +435,11 @@ def historicdwnld():
 
 
 
-@app.route("/historic")
+@app.route("historic")
 def historic():
     return render_template('historic.html')
 
-@app.route("/current_data")
+@app.route("current_data")
 def current_data():
     if not g.user:
         print("session not valid")
@@ -482,7 +482,7 @@ def current_data():
 
     return render_template('ems_test_v22.html', data1=(t2_val), data2=(data8))
 
-@app.route("/mapping")
+@app.route("mapping")
 def mapping():
     if not g.user:
         print("session not valid")
